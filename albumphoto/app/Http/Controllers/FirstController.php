@@ -15,9 +15,8 @@ class FirstController extends Controller
 
 public function album($id, Request $request){
     $search = $request->input("search");
-    $tagActif = $request->input('tag');
+    $tagActif = $request->input("tag");
     $noteActive = $request->input("note");
-
     if (isset($tagActif) == true && isset($noteActive) == true) {
         $photos = DB::select("SELECT photos.* FROM photos
                             JOIN possede_tag ON possede_tag.photo_id = photos.id
@@ -58,4 +57,22 @@ public function album($id, Request $request){
     return view("album", compact("id", "photos", "tags", "tagsparphoto", "tagsdesphotos", "search", "tagActif", "noteActive"));
 }
 
+public function ajouterphoto($id, Request $request){
+        $request->validate(["titrephoto" => "required|string", "urlphoto" => "required|string", "note" => "required|integer|min:1|max:5"]);
+        DB::insert("INSERT INTO photos VALUES(NULL, ?, ?, ?, ?, NULL)", [$request->input("titrephoto"), $request->input("urlphoto"), $request->input("note"), $id]);
+        return redirect(route("album", ["id" => $id]));
+    }
+
+public function uploadphoto($id, Request $request){
+    $request->validate(["titrephoto" => "required|string", "note" => "required|integer|min:1|max:5", "ajoutphoto" => "required|image"]);
+
+    $fichier = $request->file('ajoutphoto');
+    $nom = $request->input('titrephoto') . '.' . $fichier->extension();
+    $fichier->move(public_path('photos'), $nom);
+    DB::insert("INSERT INTO photos VALUES (NULL, ?, ? , ?, ?)", [$request->input('titrephoto'), '/photos/' . $nom, $request->input('note'), $id]); 
+    return redirect(route("album", ["id" => $id]));
 }
+
+}
+
+
