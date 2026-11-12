@@ -18,21 +18,8 @@
         <input type="submit" value="rechercher">
     </form>
 
-    <form method="POST" action="{{ route("ajouterphoto", ["id" => $id]) }}">
-        @csrf
-        <input type="text" placeholder="titre de la photo" name="titrephoto" value="{{ old('titrephoto') }}">
-        <input type="text" placeholder="lien de la photo" name="urlphoto" value="{{ old('urlphoto') }}">
-        <input type="number" placeholder="note de la photo" name="note" value="{{ old('note') }}">
-        <input type="submit" value="Envoyer la photo">
-    </form>
-
-    <form method="POST" action="{{ route("uploadphoto", ["id" => $id])}}" enctype="multipart/form-data" id="uploadphoto">
-        @csrf
-        <input type="text" placeholder="titre de la photo" name="titrephoto" value="{{ old('titrephoto') }}">
-        <input type="file" name="ajoutphoto" id="photo" accept="image/*">
-        <input type="number" placeholder="note de la photo (1 à 5)" name="note" value="{{ old('note') }}">  
-        <input type="submit" value="Ajouter la photo">
-    </form>
+    <a href="{{ route('formulaireurl', ['id' => $id]) }}">Ajouter une image avec url</a>
+    <a href="{{ route('formulaireupload', ['id' => $id]) }}">Ajouter une image stockée localement</a>
 
     <div class="filtres">
         <a href="{{ route("album", ["id" => $id]) }}"> TOUS</a>
@@ -43,7 +30,7 @@
     @endforeach
 
     @foreach ($photos as $photo)
-    <div class="photo">
+    <div class="photos">
         <img src="{{ $photo->url }}" alt="photo de {{ $photo->titre }}" class="image">
 
         <div class="tags">
@@ -51,6 +38,11 @@
                 <span class="tag"> #{{ $tagphoto->nom }}</span>
             @endforeach
         </div>
+        <form method="POST" action="{{ route('supprimerphoto', ['id' => $photo->id]) }}">
+            @csrf
+            <button type="submit" id="suppresion">SUPPRIMER</button>
+        </form>
+        
     </div>
     @endforeach
 </div>

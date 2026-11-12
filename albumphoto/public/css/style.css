@@ -1,23 +1,51 @@
  #backlight{
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background:rgba(0, 0, 0, 0.85);
-        z-index: 9999;
-        width: 100%;
-        height: 100%;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background:rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
 }
 
 #backlight.ouverte{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-    #backlight img{
-        display: block;
-        width: auto;
-        margin: 0;
+#backlight img{
+    display: block;
+    width: auto;
+    margin: 0;
+}
+.photos{
+    margin-top: 20px;
+
+}
+#photo{
+    display: none;
 }
 
+#boutonupload{
+    padding: 4px 10px;
+    border: 1px solid #767676;
+    background-color: #efefef;
+}
+
+#boutonupload:hover{
+    background-color:#e5e5e5 ;
+}
+
+#suppresion{
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 5px;
+}
+
+.tags{
+    margin-bottom: 10px;
+}
