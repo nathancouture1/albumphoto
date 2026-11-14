@@ -10,12 +10,20 @@ use Illuminate\Support\Facades\DB;
 
 class FirstController extends Controller
 {
-    public function index(){
-    $albums = DB::select("SELECT * FROM albums");
-    return view("index", compact("albums"));
+    public function index(Request $request){
+    $request->validate(["searchtd" => "nullable|string"]);
+    $search = $request->input("searchtd");
+    if($search != null){
+        $albums = DB::select("SELECT * FROM albums WHERE titre LIKE ? OR creation LIKE ?", ["%".$search."%", "%".$search."%"]);
+    }
+    else{
+        $albums = DB::select("SELECT * FROM albums");
+    }
+    return view("index", compact("albums", "search"));
 }
 
 public function album($id, Request $request){
+    $request->validate(["searchtitre" => "nullable|string"]);
     $search = $request->input("search");
     $tagActif = $request->input("tag");
     $noteActive = $request->input("note");

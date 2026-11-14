@@ -3,7 +3,7 @@
 
 <div id="album">
     <form method="get">
-        <input type="search" name="search" placeholder="titre" value="{{ $search }}">
+        <input type="search" name="searchtitre" placeholder="titre" value="{{ $search }}">
 
         <select name="note">
             <option value="">Toutes les notes</option>
