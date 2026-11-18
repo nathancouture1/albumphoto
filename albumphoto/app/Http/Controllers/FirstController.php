@@ -13,18 +13,24 @@ class FirstController extends Controller
     public function index(Request $request){
     $request->validate(["searchtd" => "nullable|string"]);
     $search = $request->input("searchtd");
+    
     if($search != null){
         $albums = DB::select("SELECT * FROM albums WHERE titre LIKE ? OR creation LIKE ?", ["%".$search."%", "%".$search."%"]);
     }
     else{
         $albums = DB::select("SELECT * FROM albums");
     }
-    return view("index", compact("albums", "search"));
+    $photos = [];
+    foreach($albums as $album){
+        $photos[$album->id] = DB::selectOne("SELECT * FROM photos WHERE album_id = ? ORDER BY id LIMIT 1", [$album->id]);
+    }
+   
+    return view("index", compact("albums", "search", "photos"));
 }
 
 public function album($id, Request $request){
     $request->validate(["searchtitre" => "nullable|string"]);
-    $search = $request->input("search");
+    $search = $request->input("searchtitre");
     $tagActif = $request->input("tag");
     $noteActive = $request->input("note");
     
@@ -77,28 +83,34 @@ public function formulaireupload($id){
     return view("formulaireupload", compact("id"));
 }
 public function ajouterphoto($id, Request $request){
-        $request->validate(["titrephoto" => "required|string", "urlphoto" => "required|string", "note" => "required|integer|min:1|max:5"]);
+        $request->validate(["titrephoto" => "required|string", "urlphoto" => "required|url", "note" => "required|integer|min:1|max:5", "tags" =>"nullable|string"]);
         
         DB::insert("INSERT INTO photos(titre, url, note, album_id) VALUES(?, ?, ?, ?)", [$request->input("titrephoto"), $request->input("urlphoto"), $request->input("note"), $id]);
         
-         $photoId = DB::getPdo()->lastInsertId();
+        $photoId = DB::getPdo()->lastInsertId();
         $tags = $request->input('tags');
    
-         if (isset($tags) == true && $tags != ""){
-            $tagExistant = DB::selectOne("SELECT id FROM tags WHERE nom = ?", [$tags]);
+        if(isset($tags) == true && $tags != ""){
+            foreach(explode(",", $tags) as $tag){
+                $tag = trim($tag);
+                if($tag == ""){
+                    continue;
+                }
+                $tagExistant = DB::selectOne("SELECT id FROM tags WHERE nom = ?", [$tag]);
 
-        if ($tagExistant != null) {
-            $tagId = $tagExistant->id;
-        }
-        else {
-       
-        DB::insert('INSERT INTO tags (nom) VALUES (?)', [$tags]);
-        
-        $tagId = DB::getPdo()->lastInsertId(); 
-        }
-        
-        DB::insert("INSERT INTO possede_tag(photo_id, tag_id)  VALUES (?, ?)", [$photoId, $tagId]);
-    } 
+                if($tagExistant != null){
+                    $tagId = $tagExistant->id;
+                }
+                else{
+                    DB::insert("INSERT INTO tags (nom) VALUES (?)", [$tag]);
+                    $tagId = DB::getPdo()->lastInsertId();
+                }
+                $existe = DB::selectOne("SELECT photo_id FROM possede_tag WHERE photo_id = ? AND tag_id = ?", [$photoId, $tagId]);
+                if ($existe == null) {
+                DB::insert("INSERT INTO possede_tag(photo_id, tag_id) VALUES (?, ?)", [$photoId, $tagId]);
+                }
+            }
+    }
         return redirect(route("album", ["id" => $id]));
     }
 
@@ -113,20 +125,26 @@ public function uploadphoto($id, Request $request){
     $photoId = DB::getPdo()->lastInsertId();
     $tags = $request->input('tags');
    
-    if (isset($tags) == true && $tags != ""){
-        $tagExistant = DB::selectOne("SELECT id FROM tags WHERE nom = ?", [$tags]);
+    if(isset($tags) == true && $tags != ""){
+            foreach(explode(",", $tags) as $tag){
+                $tag = trim($tag);
+                if($tag == ""){
+                    continue;
+                }
+                $tagExistant = DB::selectOne("SELECT id FROM tags WHERE nom = ?", [$tag]);
 
-        if ($tagExistant != null) {
-            $tagId = $tagExistant->id;
-        }
-        else {
-       
-        DB::insert('INSERT INTO tags (nom) VALUES (?)', [$tags]);
-        
-        $tagId = DB::getPdo()->lastInsertId(); 
-        }
-        
-        DB::insert("INSERT INTO possede_tag(photo_id, tag_id)  VALUES (?, ?)", [$photoId, $tagId]);
+                if($tagExistant != null){
+                    $tagId = $tagExistant->id;
+                }
+                else{
+                    DB::insert("INSERT INTO tags (nom) VALUES (?)", [$tag]);
+                    $tagId = DB::getPdo()->lastInsertId();
+                }
+                $existe = DB::selectOne("SELECT photo_id FROM possede_tag WHERE photo_id = ? AND tag_id = ?", [$photoId, $tagId]);
+                if ($existe == null) {
+                DB::insert("INSERT INTO possede_tag(photo_id, tag_id) VALUES (?, ?)", [$photoId, $tagId]);
+                }
+            }
     } 
     return redirect(route("album", ["id" => $id]));
 }

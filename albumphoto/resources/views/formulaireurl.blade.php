@@ -6,7 +6,7 @@
         <input type="text" placeholder="titre de la photo" name="titrephoto" value="{{ old('titrephoto') }}">
         <input type="text" placeholder="lien de la photo" name="urlphoto" value="{{ old('urlphoto') }}">
         <input type="number" placeholder="note de la photo" name="note" value="{{ old('note') }}">
-        <input type="text" placeholder="tags" name="tags" id="tags">
+        <input type="text" placeholder="tags spéarés par une virgule" name="tags" id="tags">
         <input type="submit" value="Envoyer la photo">
     </form>
 @endsection

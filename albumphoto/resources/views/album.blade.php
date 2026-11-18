@@ -3,8 +3,9 @@
 
 <div id="album">
     <form method="get">
+        <a href="{{ route('index') }}"><i class="fa-solid fa-arrow-left"></i></a>
+        <br>
         <input type="search" name="searchtitre" placeholder="titre" value="{{ $search }}">
-
         <select name="note">
             <option value="">Toutes les notes</option>
             @for ($i = 1; $i <= 5; $i++)
@@ -32,7 +33,7 @@
     @foreach ($photos as $photo)
     <div class="photos">
         <img src="{{ $photo->url }}" alt="photo de {{ $photo->titre }}" class="image">
-
+        <h3>{{ $photo->titre }}</h3>
         <div class="tags">
             @foreach ($tagsparphoto[$photo->id] ?? [] as $tagphoto)
                 <span class="tag"> #{{ $tagphoto->nom }}</span>

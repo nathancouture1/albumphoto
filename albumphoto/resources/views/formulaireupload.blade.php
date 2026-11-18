@@ -9,7 +9,7 @@
             <input type="file" name="ajoutphoto" id="photo" accept="image/*">
         </label>
         <input type="number" placeholder="note de la photo (1 à 5)" name="note" value="{{ old('note') }}"> 
-        <input type="text" placeholder="tags" name="tags" id="tags"> 
+        <input type="text" placeholder="tags séparés par une virgule" name="tags" id="tags"> 
         <input type="submit" value="Ajouter la photo">
     </form>
 
