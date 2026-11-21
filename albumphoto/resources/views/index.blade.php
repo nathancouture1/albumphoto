@@ -8,10 +8,18 @@
  </form>
     @foreach($albums as $album)
 
-        <a href="{{ route("album", ["id"=>$album->id]) }}">{{ $album->titre }}
-            <img src="{{ $photos[$album->id]->url }}" alt="{{ $photos[$album->id]->titre }}">
-        </a>
+        <a href="{{ route('album', ['id' => $album->id]) }}">{{ $album->titre }}
+        
+            @isset($photos[$album->id])
+                <img src="{{ $photos[$album->id]->url }}" alt="{{ $photos[$album->id]->titre }}">
+            @else
+                <span>Aucune photo</span>
+            @endisset
+</a>
         <p>{{ $album->creation }}</p>
+        
+        <p>{{$album->name}}</p>
+ 
     @endforeach
 </div>
 

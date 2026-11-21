@@ -9,7 +9,24 @@
 
 	<body>
     <main>
-        @yield("content")
+        <div id="app"> 
+            <nav>
+                @auth
+                    <div id="connecte">
+                        <span>Bonjour {{Auth::user()->name}}</span>
+                        <a href="{{route("logout")}}"onclick="document.getElementById('logout').submit(); return false;" class="logout">Logout</a>
+                        <form id="logout" action="{{route("logout")}}" method="post">
+                        </form>
+                    </div>
+                    @else
+                    <div id="boutonslr">
+                        <a href="{{route("login")}}" id="login">Login</a>
+                        <a href="{{route("register")}}" id="register">Register</a>
+                    </div>
+                @endauth
+            </nav>
+            @yield("content")
+        </div>
     <script src="{{ asset('js/script.js') }}"></script>
     </main>
 	</body>

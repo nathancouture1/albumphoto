@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -15,10 +16,10 @@ class FirstController extends Controller
     $search = $request->input("searchtd");
     
     if($search != null){
-        $albums = DB::select("SELECT * FROM albums WHERE titre LIKE ? OR creation LIKE ?", ["%".$search."%", "%".$search."%"]);
+        $albums = DB::select("SELECT albums.*, users.name FROM albums JOIN users ON users.id = albums.user_id WHERE titre LIKE ? OR creation LIKE ?", ["%".$search."%", "%".$search."%"]);
     }
     else{
-        $albums = DB::select("SELECT * FROM albums");
+        $albums = DB::select("SELECT albums.*, users.name FROM albums JOIN users ON users.id = albums.user_id");
     }
     $photos = [];
     foreach($albums as $album){

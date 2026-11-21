@@ -19,9 +19,11 @@
         <input type="submit" value="rechercher">
     </form>
 
-    <a href="{{ route('formulaireurl', ['id' => $id]) }}">Ajouter une image avec url</a>
-    <a href="{{ route('formulaireupload', ['id' => $id]) }}">Ajouter une image stockée localement</a>
-
+    @auth
+        <a href="{{ route('formulaireurl', ['id' => $id]) }}">Ajouter une image avec url</a>
+        <a href="{{ route('formulaireupload', ['id' => $id]) }}">Ajouter une image stockée localement</a>
+    @endauth
+    
     <div class="filtres">
         <a href="{{ route("album", ["id" => $id]) }}"> TOUS</a>
     </div>

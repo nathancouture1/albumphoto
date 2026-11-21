@@ -1,4 +1,58 @@
- #backlight{
+
+#app #searchtd{
+    width: 255px;
+} 
+
+#app #boutonslr{
+    display: flex;
+    justify-content: flex-end;
+}
+
+#app #boutonslr #login{
+  margin-right: 10px;
+  background-color: #1877F2;
+  color: white;
+  padding: 8px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+
+}
+
+#app #boutonslr #register{
+  margin-right: 10px;
+  background-color: #10B981 ;
+  color: white;
+  padding: 8px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+
+
+
+
+#app #connecte{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    
+}
+
+#app #connecte span{
+    text-align: center;
+}
+
+#app .logout{
+  background-color: #EF4444;
+  color: white;
+  padding: 8px 10px;
+  text-decoration: none;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+
+#album #backlight{
     display: none;
     position: fixed;
     top: 0;
@@ -9,36 +63,34 @@
     height: 100%;
 }
 
-#backlight.ouverte{
+#album #backlight.ouverte{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#backlight img{
+#album #backlight img{
     display: block;
     width: auto;
     margin: 0;
 }
-.photos{
+
+#album .photos{
     margin-top: 20px;
 
 }
-#photo{
-    display: none;
-}
 
-#boutonupload{
+#album #boutonupload{
     padding: 4px 10px;
     border: 1px solid #767676;
     background-color: #efefef;
 }
 
-#boutonupload:hover{
+#album #boutonupload:hover{
     background-color:#e5e5e5 ;
 }
 
-#suppresion{
+#album #suppresion{
     background-color: red;
     color: white;
     text-decoration: none;
@@ -46,10 +98,6 @@
     border-radius: 5px;
 }
 
-.tags{
+#album .tags{
     margin-bottom: 10px;
-}
-
-#searchtd{
-    width: 255px;
 }
