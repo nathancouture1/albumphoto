@@ -1,7 +1,4 @@
 
-#app #searchtd{
-    width: 255px;
-} 
 
 #app #boutonslr{
     display: flex;
@@ -51,6 +48,79 @@
   margin-left: 10px;
 }
 
+#index #search{
+    display: flex;
+    justify-content: center;
+}
+
+#index #searchtd{
+    width: 255px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#index #albums{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#index .album{
+    margin-right: 50px;
+    border: 2px solid black;
+    border-radius: 25px;  
+    overflow: hidden;  
+}
+#index .album img{
+    max-width: 400px;
+}
+
+#index .album h3{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#index .album p{
+    text-align: center;
+}
+
+#album #searchn{
+    display: flex;
+    justify-content: center;
+}
+
+#album #searchn input[type="search"]{
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#album #searchn select{
+   
+}
+
+#album #links{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#album #links a{
+    margin-right: 10px;
+    text-decoration: none;
+    color: blue;
+}
+
+#album #filtres{
+    display: flex;
+    justify-content: center;
+}
+
+#album #filtres a{
+    margin-right: 10px;
+    text-decoration: none;
+    color: blue;
+}
 
 #album #backlight{
     display: none;
