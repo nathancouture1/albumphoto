@@ -4,26 +4,30 @@
 
 <div id="index">
     <div>
-        <form method="get" id="search">
-            <input type="search" name="searchtd" placeholder="titre ou date de création annee-mois-date" value="{{ $search }}" id="searchtd">
+        <form method="get" id="formsearch" action="#">
+            <i class="fas fa-search"></i>
+            <input type="search" name="searchtd" placeholder="Titre ou date de création" value="{{ $search }}" id="searchtd">
         </form>
     </div>
     
     <div id="albums">
     @foreach($albums as $album)
         <div class="album">
-            <a href="{{ route('album', ['id' => $album->id]) }}">
-                @isset($photos[$album->id])
-                    <img src="{{ $photos[$album->id]->url }}" alt="{{ $photos[$album->id]->titre }}">
-                @else
-                    <span>Aucune photo</span>
-                @endisset   
-            </a>
-            <h3>{{ $album->titre }}</h3>
+            <div class="carte-image">
+                <a href="{{ route('album', ['id' => $album->id]) }}" class="carte">
+                    @if($photos[$album->id])
+                        <img src="{{ $photos[$album->id]->url }}" alt="{{ $photos[$album->id]->titre }}">
+                    @else
+                        <div class="carte-vide"><i class="fas fa-image"></i></div>
+                    @endif 
+                </a>
+            </div>
 
-            <p>{{ $album->creation }}</p>
-
-            <p>{{$album->name}}</p>
+            <div class="carte-infos">
+                <h2>{{ $album->titre }}</h2>
+                <p class="carte-user"><i class="fas fa-user"></i> {{ $album->name ?? 'Aucun propriétaire' }}</p> 
+                <span class="carte-date"><i class="fas fa-calendar"></i> {{ $album->creation }}</span>
+            </div>
         </div>
     @endforeach
     </div>

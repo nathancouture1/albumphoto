@@ -16,10 +16,10 @@ class FirstController extends Controller
     $search = $request->input("searchtd");
     
     if($search != null){
-        $albums = DB::select("SELECT albums.*, users.name FROM albums JOIN users ON users.id = albums.user_id WHERE titre LIKE ? OR creation LIKE ?", ["%".$search."%", "%".$search."%"]);
+        $albums = DB::select("SELECT albums.*, users.name FROM albums JOIN users ON users.id = albums.user_id WHERE albums.titre LIKE ? OR albums.creation LIKE ?", ["%".$search."%", "%".$search."%"]);
     }
     else{
-        $albums = DB::select("SELECT albums.*, users.name FROM albums JOIN users ON users.id = albums.user_id");
+        $albums = DB::select("SELECT albums.*, users.name FROM albums LEFT JOIN users ON users.id = albums.user_id");
     }
     $photos = [];
     foreach($albums as $album){
@@ -112,7 +112,7 @@ public function ajouterphoto($id, Request $request){
                 }
             }
     }
-        return redirect(route("album", ["id" => $id]));
+        return redirect(route("album", compact("id")));
     }
 
 public function uploadphoto($id, Request $request){
@@ -147,7 +147,7 @@ public function uploadphoto($id, Request $request){
                 }
             }
     } 
-    return redirect(route("album", ["id" => $id]));
+    return redirect(route("album", compact("id")));
 }
 public function supprimerphoto($id){
     $photo = DB::selectOne("SELECT album_id, url FROM photos WHERE id = ?", [$id]);
